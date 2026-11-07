@@ -1,0 +1,1593 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leads Management CRM | Right Asset's Property Consultants</title>
+  <meta name="description" content="Official Leads Management CRM Portal for Right Asset's Property Consultants. Multi-role Authentication (Admin & Staff) managing 500 Project, Resale, and Rental Leads." />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/images/logo-icon.svg" />
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  
+  <!-- Chart.js for Admin Analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="assets/css/styles.css" />
+
+  <style>
+    /* Clean CRM Header */
+    .crm-header-nav {
+      background: #090B10;
+      border-bottom: 1px solid var(--gold-border);
+      padding: 0.85rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+    }
+    .crm-header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .crm-brand-block {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .crm-brand-title {
+      font-size: 1.35rem;
+      color: #fff;
+      font-family: var(--font-serif);
+      margin: 0;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    /* User Profile & Auth Pill */
+    .crm-user-profile-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: #11141D;
+      border: 1px solid var(--gold-border);
+      border-radius: var(--radius-full);
+      padding: 4px 16px 4px 6px;
+    }
+    .crm-user-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--gold-400);
+    }
+    .crm-user-name {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+    }
+    .crm-role-tag {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+    .crm-role-tag.admin {
+      background: rgba(212, 175, 55, 0.2);
+      color: var(--gold-300);
+      border: 1px solid var(--gold-border-bright);
+    }
+    .crm-role-tag.staff {
+      background: rgba(59, 130, 246, 0.2);
+      color: #93C5FD;
+      border: 1px solid rgba(59, 130, 246, 0.4);
+    }
+
+    /* KPI Summary Boxes */
+    .crm-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1.2rem;
+      margin: 2rem 0;
+    }
+    .crm-stat-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .crm-stat-box:hover {
+      transform: translateY(-3px);
+      border-color: var(--gold-border);
+    }
+    .crm-stat-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--gold-gradient);
+    }
+    .crm-stat-val {
+      font-family: var(--font-serif);
+      font-size: 2.3rem;
+      font-weight: 800;
+      color: var(--gold-300);
+      line-height: 1;
+    }
+    .crm-stat-lbl {
+      color: var(--text-secondary);
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Admin Executive Analytics Section */
+    .admin-analytics-section {
+      background: #0E1118;
+      border: 1px solid var(--gold-border);
+      border-radius: var(--radius-lg);
+      padding: 1.8rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .admin-analytics-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .admin-analytics-title {
+      font-family: var(--font-serif);
+      font-size: 1.35rem;
+      color: var(--gold-300);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .admin-insights-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+      margin-bottom: 1.8rem;
+    }
+    .admin-insight-card {
+      background: #141824;
+      border: 1px solid var(--gold-border);
+      border-radius: var(--radius-md);
+      padding: 1.2rem;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .admin-insight-icon {
+      font-size: 1.6rem;
+      color: var(--gold-400);
+      background: rgba(212, 175, 55, 0.1);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .admin-insight-content h4 {
+      font-size: 0.95rem;
+      color: #fff;
+      margin: 0 0 4px 0;
+      font-weight: 700;
+    }
+    .admin-insight-content p {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      margin: 0;
+      line-height: 1.4;
+    }
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .chart-box {
+      background: #141824;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.4rem;
+    }
+    .chart-box h4 {
+      font-size: 0.95rem;
+      color: var(--gold-300);
+      margin: 0 0 1rem 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Staff Scoped Banner */
+    .staff-welcome-banner {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(14, 17, 24, 0.8));
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: var(--radius-md);
+      padding: 1.2rem 1.6rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    /* Filter Tabs for Leads */
+    .crm-portfolio-tabs {
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 0.8rem;
+      margin-bottom: 1.2rem;
+      flex-wrap: wrap;
+    }
+    .crm-portfolio-tab {
+      background: #111319;
+      border: 1px solid var(--border-subtle);
+      padding: 8px 18px;
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+    .crm-portfolio-tab:hover {
+      color: #fff;
+      border-color: var(--gold-border);
+    }
+    .crm-portfolio-tab.active {
+      background: var(--gold-gradient);
+      color: #0A0B0E;
+      border-color: var(--gold-400);
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    }
+    .crm-portfolio-tab .tab-count {
+      background: rgba(0, 0, 0, 0.25);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+    }
+    .crm-portfolio-tab.active .tab-count {
+      background: #000;
+      color: var(--gold-300);
+    }
+
+    /* Controls Toolbar */
+    .crm-controls-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--gold-border);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .crm-controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    /* Table Styles */
+    .crm-table-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      overflow-x: auto;
+      box-shadow: var(--elevated-shadow);
+      margin-bottom: 2rem;
+    }
+    .crm-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+    .crm-table th {
+      background: #080A0E;
+      color: var(--gold-400);
+      padding: 14px 16px;
+      font-weight: 700;
+      border-bottom: 1px solid var(--gold-border);
+      white-space: nowrap;
+    }
+    .crm-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--text-primary);
+      vertical-align: middle;
+    }
+    .crm-table tr:hover {
+      background: rgba(212, 175, 55, 0.04);
+    }
+
+    /* Badges */
+    .status-select-badge {
+      background: #090A0E;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 5px 10px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      color: #fff;
+    }
+    .status-select-badge.status-new { border-color: #3B82F6; color: #60A5FA; }
+    .status-select-badge.status-contacted { border-color: #F59E0B; color: #FBBF24; }
+    .status-select-badge.status-scheduled { border-color: #10B981; color: #34D399; }
+    .status-select-badge.status-negotiation { border-color: #8B5CF6; color: #C084FC; }
+    .status-select-badge.status-closed { border-color: #10B981; color: #10B981; background: rgba(16, 185, 129, 0.15); }
+
+    .assigned-advisor-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      white-space: nowrap;
+    }
+    .assigned-advisor-pill.sanjeev {
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--gold-300);
+      border: 1px solid var(--gold-border);
+    }
+    .assigned-advisor-pill.nutan {
+      background: rgba(236, 72, 153, 0.15);
+      color: #F472B6;
+      border: 1px solid rgba(236, 72, 153, 0.4);
+    }
+    .assigned-advisor-pill.roshan {
+      background: rgba(59, 130, 246, 0.15);
+      color: #93C5FD;
+      border: 1px solid rgba(59, 130, 246, 0.4);
+    }
+
+    /* Pop-up Auth Modal Overlay */
+    .auth-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.88);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .auth-modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .auth-modal-card {
+      background: #0E1017;
+      border: 1px solid var(--gold-border-bright);
+      border-radius: var(--radius-lg);
+      width: 90%;
+      max-width: 440px;
+      padding: 2.2rem 2.4rem;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.95);
+      text-align: center;
+      position: relative;
+    }
+
+    .auth-toggle-link {
+      color: var(--gold-400);
+      font-size: 0.84rem;
+      text-decoration: underline;
+      cursor: pointer;
+      display: inline-block;
+      margin-top: 1rem;
+      transition: color 0.2s ease;
+    }
+    .auth-toggle-link:hover {
+      color: #fff;
+    }
+
+    @media (max-width: 1100px) {
+      .crm-stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .admin-insights-grid {
+        grid-template-columns: 1fr;
+      }
+      .charts-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 768px) {
+      .crm-stats-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body class="bg-dark">
+
+  <!-- ================= CRM HEADER ================= -->
+  <header class="crm-header-nav">
+    <div class="container crm-header-content">
+      
+      <!-- Brand Logo & Title (Cleaned - No green Firebase subtitle line) -->
+      <div class="crm-brand-block">
+        <a href="index.html" style="display: flex; align-items: center; text-decoration: none;">
+          <img src="assets/images/logo.png" alt="Right Asset's Logo" style="height: 52px; width: auto; object-fit: contain;" />
+        </a>
+        <div>
+          <h1 class="crm-brand-title">Leads Management CRM</h1>
+        </div>
+      </div>
+
+      <!-- User Profile & Action Controls -->
+      <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+        <!-- User Profile Pill -->
+        <div class="crm-user-profile-pill" id="crm-profile-pill">
+          <img src="assets/images/sanjeev-mehta.jpg" alt="User" class="crm-user-avatar" id="current-user-avatar" />
+          <div>
+            <div class="crm-user-name" id="current-user-name">Sanjeev Mehta</div>
+            <span class="crm-role-tag admin" id="current-user-role-badge">Admin • Owner</span>
+          </div>
+        </div>
+
+        <!-- Switch Role Button (Always prompts for login credentials) -->
+        <button type="button" class="btn btn-outline-gold btn-sm" id="btn-switch-account" title="Switch User Role">
+          <i class="fa-solid fa-user-lock"></i> Switch User
+        </button>
+
+        <!-- Back to Main Website -->
+        <a href="index.html" class="btn btn-secondary btn-sm">
+          <i class="fa-solid fa-house"></i> Back to Website
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ================= MAIN CRM DASHBOARD ================= -->
+  <main class="container" style="padding: 2rem 1.5rem 4rem;">
+
+    <!-- STAFF SCOPED WELCOME BANNER (Visible only to Staff) -->
+    <div id="staff-banner" class="staff-welcome-banner" style="display: none;">
+      <div style="display: flex; align-items: center; gap: 14px;">
+        <div style="width: 44px; height: 44px; border-radius: 50%; background: rgba(59, 130, 246, 0.2); display: flex; align-items: center; justify-content: center; color: #60A5FA; font-size: 1.3rem;">
+          <i class="fa-solid fa-user-shield"></i>
+        </div>
+        <div>
+          <h3 style="margin: 0; color: #fff; font-size: 1.1rem;" id="staff-banner-title">Staff Portal - Assigned Portfolio View</h3>
+          <p style="margin: 3px 0 0; color: var(--text-secondary); font-size: 0.85rem;" id="staff-banner-subtitle">
+            You are authenticated under Staff permissions. Viewing only leads designated to your workflow.
+          </p>
+        </div>
+      </div>
+      <div id="staff-badge-container"></div>
+    </div>
+
+    <!-- ================= ADMIN EXECUTIVE ANALYTICS (VISIBLE ONLY TO ADMIN) ================= -->
+    <section id="admin-analytics-panel" class="admin-analytics-section">
+      <div class="admin-analytics-header">
+        <div>
+          <h2 class="admin-analytics-title">
+            <i class="fa-solid fa-chart-line"></i> Owner Executive Intelligence & Market Analytics
+          </h2>
+          <p style="color: var(--text-secondary); font-size: 0.85rem; margin: 4px 0 0;">
+            Exclusive Owner's Decision Cockpit for Sanjeev Mehta • Real-time Cloud Intelligence
+          </p>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <span class="badge-tag invest" style="padding: 6px 12px; font-size: 0.78rem;">
+            <i class="fa-solid fa-shield-halved"></i> ADMIN PERSPECTIVE
+          </span>
+        </div>
+      </div>
+
+      <!-- Actionable Insights Cards -->
+      <div class="admin-insights-grid">
+        <div class="admin-insight-card">
+          <div class="admin-insight-icon"><i class="fa-solid fa-building-circle-arrow-right"></i></div>
+          <div class="admin-insight-content">
+            <h4>Highest Conversion Sector</h4>
+            <p><strong>Under Construction Projects</strong> in Kandivali West Mahavir Nagar are generating the highest intent with 68% site visit transitions.</p>
+          </div>
+        </div>
+
+        <div class="admin-insight-card">
+          <div class="admin-insight-icon"><i class="fa-solid fa-sack-dollar"></i></div>
+          <div class="admin-insight-content">
+            <h4>Top Buyer Budget Bracket</h4>
+            <p>Resale 2 BHK demand peaked between <strong>₹ 1.8 Cr – ₹ 2.6 Cr</strong> across Borivali & Kandivali corridors.</p>
+          </div>
+        </div>
+
+        <div class="admin-insight-card">
+          <div class="admin-insight-icon"><i class="fa-solid fa-arrows-split-up-and-left"></i></div>
+          <div class="admin-insight-content">
+            <h4>Workforce Delegation Status</h4>
+            <p>Roshan is managing 200 high-velocity rental leads; Nutan Madam is leading 200 premium resale leads with 42 deals in negotiation.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="charts-grid">
+        <!-- Lead Pipeline Status Distribution Chart -->
+        <div class="chart-box">
+          <h4><i class="fa-solid fa-chart-pie"></i> Lead Pipeline Status Distribution</h4>
+          <div style="position: relative; height: 260px;">
+            <canvas id="pipelineStatusChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Portfolio Assignment Breakdown Chart -->
+        <div class="chart-box">
+          <h4><i class="fa-solid fa-chart-column"></i> Portfolio Volume by Designated Lead</h4>
+          <div style="position: relative; height: 260px;">
+            <canvas id="portfolioDistributionChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= KPI SUMMARY CARDS ================= -->
+    <div class="crm-stats-grid" id="crm-stats-panel">
+      <div class="crm-stat-box">
+        <span class="crm-stat-val" id="stat-total-leads">500</span>
+        <span class="crm-stat-lbl" id="stat-total-lbl">Total Leads</span>
+      </div>
+      <div class="crm-stat-box" id="kpi-box-projects">
+        <span class="crm-stat-val" id="stat-projects-leads" style="color: #60A5FA;">100</span>
+        <span class="crm-stat-lbl">Projects • Sanjeev Mehta</span>
+      </div>
+      <div class="crm-stat-box" id="kpi-box-resale">
+        <span class="crm-stat-val" id="stat-resale-leads" style="color: #F472B6;">200</span>
+        <span class="crm-stat-lbl">Resale • Nutan Madam</span>
+      </div>
+      <div class="crm-stat-box" id="kpi-box-rent">
+        <span class="crm-stat-val" id="stat-rent-leads" style="color: #34D399;">200</span>
+        <span class="crm-stat-lbl">Rentals • Roshan</span>
+      </div>
+      <div class="crm-stat-box">
+        <span class="crm-stat-val" id="stat-closed-leads" style="color: var(--gold-400);">78</span>
+        <span class="crm-stat-lbl">Successful Closures</span>
+      </div>
+    </div>
+
+    <!-- ================= CONTROLS & TABLE ================= -->
+    <section class="crm-controls-panel">
+      
+      <!-- Portfolio Filter Tabs -->
+      <div class="crm-portfolio-tabs" id="crm-portfolio-tabs-container">
+        <button type="button" class="crm-portfolio-tab active" data-portfolio="all" id="tab-all">
+          <i class="fa-solid fa-list-check"></i> All Leads <span class="tab-count" id="tab-count-all">500</span>
+        </button>
+        <button type="button" class="crm-portfolio-tab" data-portfolio="project" id="tab-projects">
+          <i class="fa-solid fa-city"></i> Projects <span class="tab-count" id="tab-count-projects">100</span>
+        </button>
+        <button type="button" class="crm-portfolio-tab" data-portfolio="resale" id="tab-resale">
+          <i class="fa-solid fa-house"></i> Resale <span class="tab-count" id="tab-count-resale">200</span>
+        </button>
+        <button type="button" class="crm-portfolio-tab" data-portfolio="rent" id="tab-rent">
+          <i class="fa-solid fa-key"></i> Rentals <span class="tab-count" id="tab-count-rent">200</span>
+        </button>
+      </div>
+
+      <!-- Action Row -->
+      <div class="crm-controls-row">
+        <!-- Live Search Input -->
+        <div class="search-input-wrap" style="max-width: 440px; width: 100%;">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="crm-search-input" placeholder="Search by Client Name, Phone, Email, Locality, Tower..." />
+        </div>
+
+        <!-- Action Buttons -->
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <button type="button" class="btn btn-outline-gold btn-sm" id="btn-add-manual-lead">
+            <i class="fa-solid fa-plus"></i> Add New Lead
+          </button>
+          <button type="button" class="btn btn-primary-gold btn-sm" id="btn-export-csv">
+            <i class="fa-solid fa-file-excel"></i> Export CSV / Excel
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-clear-db" title="Reset 500 Leads">
+            <i class="fa-solid fa-rotate-right"></i> Reset Cloud Cache
+          </button>
+        </div>
+      </div>
+
+      <!-- Secondary Filters Row -->
+      <div class="crm-controls-row" style="border-top: 1px solid var(--border-subtle); padding-top: 1rem;">
+        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+          <label style="font-size: 0.85rem; color: var(--gold-300); font-weight: 700;">Filter By:</label>
+          
+          <select id="crm-filter-status" class="sort-select">
+            <option value="all">All Statuses</option>
+            <option value="New">Status: New</option>
+            <option value="Contacted">Status: Contacted</option>
+            <option value="Site Visit Scheduled">Status: Visit Scheduled</option>
+            <option value="Negotiation">Status: Negotiation</option>
+            <option value="Closed">Status: Closed</option>
+          </select>
+
+          <select id="crm-filter-advisor" class="sort-select">
+            <option value="all">Assigned: All Advisors</option>
+            <option value="Sanjeev Mehta">Sanjeev Mehta • Projects & Owner</option>
+            <option value="Nutan Madam">Nutan Madam • Resale</option>
+            <option value="Roshan">Roshan • Rentals</option>
+          </select>
+
+          <select id="crm-filter-category" class="sort-select">
+            <option value="all">All Categories</option>
+            <option value="home">Home</option>
+            <option value="office">Office</option>
+            <option value="shop">Shop</option>
+            <option value="godown">Godown</option>
+          </select>
+        </div>
+
+        <span style="font-size: 0.88rem; color: var(--text-secondary);" id="crm-results-counter">
+          Showing <strong>1-25</strong> of <strong>500</strong> Leads
+        </span>
+      </div>
+
+    </section>
+
+    <!-- Table Container -->
+    <div class="crm-table-container">
+      <table class="crm-table">
+        <thead>
+          <tr>
+            <th style="width: 130px;">Lead ID / Status</th>
+            <th>Client Info</th>
+            <th>Contact Details</th>
+            <th>Portfolio & Category</th>
+            <th>Property / Locality</th>
+            <th>AI Score</th>
+            <th>Assigned Advisor</th>
+            <th>Received Date</th>
+            <th style="text-align: right;">Action</th>
+          </tr>
+        </thead>
+        <tbody id="crm-table-body">
+          <!-- Dynamically populated -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div id="crm-pagination-controls" style="margin-top: 1.5rem;"></div>
+
+  </main>
+
+  <!-- ================= POP-UP AUTHENTICATION MODAL ================= -->
+  <div class="auth-modal-overlay" id="auth-modal">
+    <div class="auth-modal-card">
+      <img src="assets/images/logo.png" alt="Logo" style="height: 60px; margin-bottom: 0.8rem;" />
+
+      <!-- 1. LOGIN VIEW -->
+      <div id="auth-view-login">
+        <h2 style="font-family: var(--font-serif); color: #fff; font-size: 1.35rem; margin-bottom: 4px;">CRM Authentication</h2>
+        <p style="color: var(--text-secondary); font-size: 0.82rem; margin-bottom: 1.4rem;">
+          Please enter your authorized username and password to proceed.
+        </p>
+
+        <form id="crm-login-form" class="enquiry-form">
+          <div class="form-group" style="text-align: left;">
+            <label for="login-username">Username</label>
+            <input type="text" id="login-username" placeholder="e.g. sanjeev, nutan, roshan" required autocomplete="username" />
+          </div>
+          <div class="form-group" style="text-align: left;">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" placeholder="Enter your password" required autocomplete="current-password" />
+          </div>
+          
+          <div id="login-error-msg" style="color: #EF4444; font-size: 0.85rem; display: none; text-align: left; margin-bottom: 0.8rem; background: rgba(239, 68, 68, 0.1); padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(239, 68, 68, 0.3);"></div>
+          
+          <button type="submit" class="btn btn-primary-gold" style="width: 100%; margin-top: 0.3rem;">
+            <i class="fa-solid fa-right-to-bracket"></i> Sign In to CRM
+          </button>
+        </form>
+
+        <span class="auth-toggle-link" id="link-forgot-password">
+          <i class="fa-solid fa-key" style="margin-right: 4px;"></i> Forgot Password?
+        </span>
+      </div>
+
+      <!-- 2. FORGOT / RESET PASSWORD VIEW -->
+      <div id="auth-view-forgot" style="display: none;">
+        <h2 style="font-family: var(--font-serif); color: #fff; font-size: 1.35rem; margin-bottom: 4px;">Reset Password</h2>
+        <p style="color: var(--text-secondary); font-size: 0.82rem; margin-bottom: 1.4rem;">
+          Enter your username to set and confirm your new password.
+        </p>
+
+        <form id="crm-forgot-form" class="enquiry-form">
+          <div class="form-group" style="text-align: left;">
+            <label for="reset-username">Username</label>
+            <input type="text" id="reset-username" placeholder="e.g. sanjeev, nutan, roshan" required autocomplete="username" />
+          </div>
+          <div class="form-group" style="text-align: left;">
+            <label for="reset-new-password">New Password</label>
+            <input type="password" id="reset-new-password" placeholder="Enter new password (min 6 characters)" required autocomplete="new-password" />
+          </div>
+          <div class="form-group" style="text-align: left;">
+            <label for="reset-confirm-password">Confirm Password</label>
+            <input type="password" id="reset-confirm-password" placeholder="Confirm new password" required autocomplete="new-password" />
+          </div>
+
+          <div id="reset-msg" style="font-size: 0.85rem; display: none; text-align: left; margin-bottom: 0.8rem; padding: 8px 12px; border-radius: 6px;"></div>
+
+          <button type="submit" class="btn btn-primary-gold" style="width: 100%; margin-top: 0.3rem;">
+            <i class="fa-solid fa-shield-halved"></i> Update Password
+          </button>
+        </form>
+
+        <span class="auth-toggle-link" id="link-back-login">
+          <i class="fa-solid fa-arrow-left" style="margin-right: 4px;"></i> Back to Login
+        </span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= ADD MANUAL LEAD MODAL ================= -->
+  <div class="modal-overlay" id="manual-lead-modal">
+    <div class="modal-box" style="max-width: 620px;">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-user-plus" style="color: var(--gold-400); margin-right: 8px;"></i> Add Lead</h3>
+        <button type="button" class="modal-close-btn" id="manual-modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="manual-lead-form" class="enquiry-form">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label for="man-name">Client Name *</label>
+              <input type="text" id="man-name" required />
+            </div>
+            <div class="form-group">
+              <label for="man-phone">Phone Number *</label>
+              <input type="tel" id="man-phone" required />
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label for="man-purpose">Portfolio Type *</label>
+              <select id="man-purpose" onchange="autoSelectAdvisor(this.value)">
+                <option value="project">Project Under Construction -> Sanjeev Mehta</option>
+                <option value="buy">Resale -> Nutan Madam</option>
+                <option value="rent">Rent & Lease -> Roshan</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="man-category">Category</label>
+              <select id="man-category">
+                <option value="home">Home Residential</option>
+                <option value="office">Office Commercial</option>
+                <option value="shop">Shop Retail</option>
+                <option value="godown">Godown Industrial</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label for="man-budget">Budget</label>
+              <input type="text" id="man-budget" placeholder="e.g. ₹ 2.50 Cr or ₹ 45,000/mo" />
+            </div>
+            <div class="form-group">
+              <label for="man-area">Preferred Locality / Project</label>
+              <input type="text" id="man-area" placeholder="e.g. Mahavir Nagar, Kandivali West" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="man-agent">Assigned Advisor</label>
+            <select id="man-agent">
+              <option value="Sanjeev Mehta">Sanjeev Mehta • Owner & Projects</option>
+              <option value="Nutan Madam">Nutan Madam • Associate & Resale</option>
+              <option value="Roshan">Roshan • Staff & Rentals</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="man-notes">Internal Notes</label>
+            <textarea id="man-notes" rows="2" placeholder="Initial client preference notes..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary-gold" style="width: 100%;">
+            <i class="fa-solid fa-floppy-disk"></i> Save Lead to CRM
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= EDIT NOTES MODAL ================= -->
+  <div class="modal-overlay" id="notes-modal">
+    <div class="modal-box" style="max-width: 500px;">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-note-sticky" style="color: var(--gold-400); margin-right: 8px;"></i> Lead Notes</h3>
+        <button type="button" class="modal-close-btn" id="notes-modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="notes-lead-id" />
+        <div class="form-group">
+          <label>Update Notes for <span id="notes-lead-client" style="color: var(--gold-300);"></span></label>
+          <textarea id="notes-lead-text" rows="4" style="width: 100%;"></textarea>
+        </div>
+        <button type="button" class="btn btn-primary-gold" id="btn-save-notes" style="width: 100%;">
+          <i class="fa-solid fa-check"></i> Save Notes
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Modules -->
+  <script src="assets/js/leads-data.js"></script>
+  <script src="assets/js/leads-service.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Elements
+      const authModal = document.getElementById("auth-modal");
+      const authViewLogin = document.getElementById("auth-view-login");
+      const authViewForgot = document.getElementById("auth-view-forgot");
+      const linkForgotPassword = document.getElementById("link-forgot-password");
+      const linkBackLogin = document.getElementById("link-back-login");
+
+      const loginForm = document.getElementById("crm-login-form");
+      const loginError = document.getElementById("login-error-msg");
+      const forgotForm = document.getElementById("crm-forgot-form");
+      const resetMsg = document.getElementById("reset-msg");
+
+      const profileName = document.getElementById("current-user-name");
+      const profileAvatar = document.getElementById("current-user-avatar");
+      const profileRole = document.getElementById("current-user-role-badge");
+      const switchAccountBtn = document.getElementById("btn-switch-account");
+
+      const adminAnalyticsPanel = document.getElementById("admin-analytics-panel");
+      const staffBanner = document.getElementById("staff-banner");
+      const staffBannerTitle = document.getElementById("staff-banner-title");
+      const staffBannerSubtitle = document.getElementById("staff-banner-subtitle");
+      const staffBadgeContainer = document.getElementById("staff-badge-container");
+
+      const tableBody = document.getElementById("crm-table-body");
+      const searchInput = document.getElementById("crm-search-input");
+      const filterStatus = document.getElementById("crm-filter-status");
+      const filterAdvisor = document.getElementById("crm-filter-advisor");
+      const filterCategory = document.getElementById("crm-filter-category");
+      const counterEl = document.getElementById("crm-results-counter");
+      const paginationContainer = document.getElementById("crm-pagination-controls");
+
+      const statTotal = document.getElementById("stat-total-leads");
+      const statTotalLbl = document.getElementById("stat-total-lbl");
+      const statProjects = document.getElementById("stat-projects-leads");
+      const statResale = document.getElementById("stat-resale-leads");
+      const statRent = document.getElementById("stat-rent-leads");
+      const statClosed = document.getElementById("stat-closed-leads");
+
+      const kpiProjects = document.getElementById("kpi-box-projects");
+      const kpiResale = document.getElementById("kpi-box-resale");
+      const kpiRent = document.getElementById("kpi-box-rent");
+
+      const tabs = document.querySelectorAll(".crm-portfolio-tab");
+      const tabProjects = document.getElementById("tab-projects");
+      const tabResale = document.getElementById("tab-resale");
+      const tabRent = document.getElementById("tab-rent");
+      const tabAll = document.getElementById("tab-all");
+
+      // State
+      let currentPortfolioTab = "all";
+      let currentPage = 1;
+      const perPage = 25;
+      let chartStatusInstance = null;
+      let chartPortfolioInstance = null;
+
+      // 1. Initial Authentication Check - Popup appears if not authenticated in current session
+      function checkAuth() {
+        const currentUser = AuthService.getCurrentUser();
+        if (!currentUser) {
+          showAuthModal();
+        } else {
+          renderUserProfile(currentUser);
+        }
+      }
+
+      function showAuthModal() {
+        authModal.classList.add("active");
+        authViewLogin.style.display = "block";
+        authViewForgot.style.display = "none";
+        loginError.style.display = "none";
+        if (loginForm) loginForm.reset();
+      }
+
+      // Toggle to Forgot Password view
+      if (linkForgotPassword) {
+        linkForgotPassword.addEventListener("click", () => {
+          authViewLogin.style.display = "none";
+          authViewForgot.style.display = "block";
+          resetMsg.style.display = "none";
+          if (forgotForm) forgotForm.reset();
+        });
+      }
+
+      // Toggle back to Login view
+      if (linkBackLogin) {
+        linkBackLogin.addEventListener("click", () => {
+          authViewForgot.style.display = "none";
+          authViewLogin.style.display = "block";
+          loginError.style.display = "none";
+        });
+      }
+
+      // Switch User button - Always logs out and opens login popup
+      if (switchAccountBtn) {
+        switchAccountBtn.addEventListener("click", () => {
+          AuthService.logout();
+          showAuthModal();
+        });
+      }
+
+      // Submit Login Form
+      if (loginForm) {
+        loginForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const u = document.getElementById("login-username").value.trim();
+          const p = document.getElementById("login-password").value;
+
+          loginError.textContent = "Verifying credentials with database...";
+          loginError.style.color = "var(--gold-300)";
+          loginError.style.borderColor = "var(--gold-border)";
+          loginError.style.background = "rgba(212, 175, 55, 0.1)";
+          loginError.style.display = "block";
+
+          const res = await AuthService.login(u, p);
+          if (res.success) {
+            loginError.style.display = "none";
+            renderUserProfile(res.user);
+          } else {
+            loginError.textContent = res.message || "Incorrect username or password. Please try again.";
+            loginError.style.color = "#EF4444";
+            loginError.style.borderColor = "rgba(239, 68, 68, 0.4)";
+            loginError.style.background = "rgba(239, 68, 68, 0.1)";
+            loginError.style.display = "block";
+          }
+        });
+      }
+
+      // Submit Forgot / Reset Password Form
+      if (forgotForm) {
+        forgotForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const u = document.getElementById("reset-username").value.trim();
+          const np = document.getElementById("reset-new-password").value;
+          const cp = document.getElementById("reset-confirm-password").value;
+
+          resetMsg.textContent = "Updating password in database...";
+          resetMsg.style.color = "var(--gold-300)";
+          resetMsg.style.border = "1px solid var(--gold-border)";
+          resetMsg.style.background = "rgba(212, 175, 55, 0.1)";
+          resetMsg.style.display = "block";
+
+          const res = await AuthService.resetPassword(u, np, cp);
+          if (res.success) {
+            resetMsg.textContent = res.message;
+            resetMsg.style.color = "#10B981";
+            resetMsg.style.border = "1px solid rgba(16, 185, 129, 0.4)";
+            resetMsg.style.background = "rgba(16, 185, 129, 0.1)";
+            resetMsg.style.display = "block";
+
+            // Automatically switch back to login after 2 seconds
+            setTimeout(() => {
+              authViewForgot.style.display = "none";
+              authViewLogin.style.display = "block";
+              document.getElementById("login-username").value = u;
+              document.getElementById("login-password").value = "";
+              loginError.textContent = "Password updated! Please log in with your new credentials.";
+              loginError.style.color = "#10B981";
+              loginError.style.borderColor = "rgba(16, 185, 129, 0.4)";
+              loginError.style.background = "rgba(16, 185, 129, 0.1)";
+              loginError.style.display = "block";
+            }, 1800);
+          } else {
+            resetMsg.textContent = res.message;
+            resetMsg.style.color = "#EF4444";
+            resetMsg.style.border = "1px solid rgba(239, 68, 68, 0.4)";
+            resetMsg.style.background = "rgba(239, 68, 68, 0.1)";
+            resetMsg.style.display = "block";
+          }
+        });
+      }
+
+      // Render Dashboard based on Authenticated Role
+      function renderUserProfile(user) {
+        if (!user) {
+          showAuthModal();
+          return;
+        }
+        authModal.classList.remove("active");
+
+        if (profileName) profileName.textContent = user.displayName;
+        if (profileAvatar) profileAvatar.src = user.avatar;
+        if (profileRole) {
+          profileRole.textContent = user.role === "Admin" ? "Admin • Owner" : `Staff • ${user.designation}`;
+          profileRole.className = user.role === "Admin" ? "crm-role-tag admin" : "crm-role-tag staff";
+        }
+
+        const isAdmin = user.role === "Admin";
+
+        if (isAdmin) {
+          // ADMIN PERSPECTIVE
+          adminAnalyticsPanel.style.display = "block";
+          staffBanner.style.display = "none";
+          statTotalLbl.textContent = "Total Leads";
+          kpiProjects.style.display = "flex";
+          kpiResale.style.display = "flex";
+          kpiRent.style.display = "flex";
+
+          tabAll.style.display = "inline-flex";
+          tabProjects.style.display = "inline-flex";
+          tabResale.style.display = "inline-flex";
+          tabRent.style.display = "inline-flex";
+
+          if (filterAdvisor) {
+            filterAdvisor.style.display = "inline-block";
+            filterAdvisor.value = "all";
+          }
+          currentPortfolioTab = "all";
+          switchTab("all");
+          initAdminCharts();
+        } else {
+          // STAFF PERSPECTIVE - Strictly Scoped
+          adminAnalyticsPanel.style.display = "none";
+          staffBanner.style.display = "flex";
+          staffBannerTitle.textContent = `${user.displayName}'s Dedicated Workflow Portal`;
+          staffBannerSubtitle.textContent = `Viewing only ${user.designation} leads assigned to ${user.displayName}. Admin intelligence and other staff leads are restricted.`;
+          
+          staffBadgeContainer.innerHTML = `
+            <span class="badge-tag ${user.username === 'nutan' ? 'buy' : 'rent'}" style="padding: 6px 14px; font-size: 0.82rem;">
+              <i class="fa-solid ${user.username === 'nutan' ? 'fa-house' : 'fa-key'}"></i> ${user.assignedToFilter} • 200 Leads
+            </span>
+          `;
+
+          tabAll.style.display = "none";
+          if (user.username === "nutan") {
+            tabProjects.style.display = "none";
+            tabRent.style.display = "none";
+            tabResale.style.display = "inline-flex";
+            kpiProjects.style.display = "none";
+            kpiRent.style.display = "none";
+            kpiResale.style.display = "flex";
+            statTotalLbl.textContent = "My Resale Leads";
+            switchTab("resale");
+          } else if (user.username === "roshan") {
+            tabProjects.style.display = "none";
+            tabResale.style.display = "none";
+            tabRent.style.display = "inline-flex";
+            kpiProjects.style.display = "none";
+            kpiResale.style.display = "none";
+            kpiRent.style.display = "flex";
+            statTotalLbl.textContent = "My Rental Leads";
+            switchTab("rent");
+          }
+
+          if (filterAdvisor) {
+            filterAdvisor.style.display = "none";
+          }
+        }
+
+        renderTable();
+      }
+
+      // Portfolio Tabs
+      function switchTab(portfolio) {
+        currentPortfolioTab = portfolio;
+        currentPage = 1;
+        tabs.forEach(t => {
+          if (t.dataset.portfolio === portfolio) {
+            t.classList.add("active");
+          } else {
+            t.classList.remove("active");
+          }
+        });
+        renderTable();
+      }
+
+      tabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+          switchTab(tab.dataset.portfolio);
+        });
+      });
+
+      // Statistics Update
+      function updateStats(leads) {
+        const currentUser = AuthService.getCurrentUser();
+        if (!currentUser) return;
+
+        const isAdmin = currentUser.role === "Admin";
+
+        if (isAdmin) {
+          const total = leads.length;
+          const projects = leads.filter(l => l.purpose === "project" || l.assignedTo === "Sanjeev Mehta").length;
+          const resale = leads.filter(l => l.purpose === "buy" || l.assignedTo === "Nutan Madam").length;
+          const rent = leads.filter(l => l.purpose === "rent" || l.assignedTo === "Roshan").length;
+          const closed = leads.filter(l => l.status === "Closed").length;
+
+          if (statTotal) statTotal.textContent = total;
+          if (statProjects) statProjects.textContent = projects;
+          if (statResale) statResale.textContent = resale;
+          if (statRent) statRent.textContent = rent;
+          if (statClosed) statClosed.textContent = closed;
+
+          document.getElementById("tab-count-all").textContent = total;
+          document.getElementById("tab-count-projects").textContent = projects;
+          document.getElementById("tab-count-resale").textContent = resale;
+          document.getElementById("tab-count-rent").textContent = rent;
+        } else {
+          const myLeads = leads.filter(l => l.assignedTo === currentUser.assignedToFilter);
+          const closed = myLeads.filter(l => l.status === "Closed").length;
+          if (statTotal) statTotal.textContent = myLeads.length;
+          if (statClosed) statClosed.textContent = closed;
+
+          if (currentUser.username === "nutan") {
+            if (statResale) statResale.textContent = myLeads.length;
+            document.getElementById("tab-count-resale").textContent = myLeads.length;
+          } else if (currentUser.username === "roshan") {
+            if (statRent) statRent.textContent = myLeads.length;
+            document.getElementById("tab-count-rent").textContent = myLeads.length;
+          }
+        }
+      }
+
+      // Render Table
+      function renderTable() {
+        const currentUser = AuthService.getCurrentUser();
+        if (!currentUser) return;
+
+        const allLeads = RealtimeDB.getAllLeads();
+        updateStats(allLeads);
+
+        const isAdmin = currentUser.role === "Admin";
+        const query = (searchInput?.value || "").toLowerCase().trim();
+        const statusVal = filterStatus?.value || "all";
+        const advisorVal = isAdmin ? (filterAdvisor?.value || "all") : currentUser.assignedToFilter;
+        const catVal = filterCategory?.value || "all";
+
+        const filtered = allLeads.filter(l => {
+          if (!isAdmin) {
+            if (l.assignedTo !== currentUser.assignedToFilter) return false;
+          }
+
+          if (currentPortfolioTab === "project" && l.purpose !== "project" && l.assignedTo !== "Sanjeev Mehta") return false;
+          if (currentPortfolioTab === "resale" && l.purpose !== "buy" && l.assignedTo !== "Nutan Madam") return false;
+          if (currentPortfolioTab === "rent" && l.purpose !== "rent" && l.assignedTo !== "Roshan") return false;
+
+          if (query) {
+            const str = `${l.clientName} ${l.phone} ${l.email} ${l.preferredArea} ${l.propertyTitle} ${l.id} ${l.assignedTo}`.toLowerCase();
+            if (!str.includes(query)) return false;
+          }
+
+          if (statusVal !== "all" && l.status !== statusVal) return false;
+          if (isAdmin && advisorVal !== "all" && l.assignedTo !== advisorVal) return false;
+          if (catVal !== "all" && (l.category || "").toLowerCase() !== catVal) return false;
+
+          return true;
+        });
+
+        const totalFiltered = filtered.length;
+        const totalPages = Math.ceil(totalFiltered / perPage) || 1;
+        if (currentPage > totalPages) currentPage = 1;
+
+        const startIndex = (currentPage - 1) * perPage;
+        const endIndex = startIndex + perPage;
+        const paginated = filtered.slice(startIndex, endIndex);
+
+        if (counterEl) {
+          const showStart = totalFiltered === 0 ? 0 : startIndex + 1;
+          const showEnd = Math.min(endIndex, totalFiltered);
+          counterEl.innerHTML = `Showing <strong>${showStart}-${showEnd}</strong> of <strong>${totalFiltered}</strong> Leads`;
+        }
+
+        if (totalFiltered === 0) {
+          tableBody.innerHTML = `
+            <tr>
+              <td colspan="8" style="text-align: center; padding: 3rem; color: var(--text-muted);">
+                <i class="fa-solid fa-folder-open" style="font-size: 2rem; color: var(--gold-400); margin-bottom: 0.5rem; display: block;"></i>
+                No leads found matching current filter parameters.
+              </td>
+            </tr>
+          `;
+          paginationContainer.innerHTML = "";
+          return;
+        }
+
+        tableBody.innerHTML = paginated.map(l => {
+          let statusClass = "status-new";
+          if (l.status === "Contacted") statusClass = "status-contacted";
+          else if (l.status === "Site Visit Scheduled") statusClass = "status-scheduled";
+          else if (l.status === "Negotiation") statusClass = "status-negotiation";
+          else if (l.status === "Closed") statusClass = "status-closed";
+
+          let advisorClass = "sanjeev";
+          if (l.assignedTo === "Nutan Madam") advisorClass = "nutan";
+          else if (l.assignedTo === "Roshan") advisorClass = "roshan";
+
+          let purposeBadge = "BUY";
+          let purposeClass = "buy";
+          if (l.purpose === "project") { purposeBadge = "PROJECT"; purposeClass = "invest"; }
+          else if (l.purpose === "rent") { purposeBadge = "RENT"; purposeClass = "rent"; }
+
+          const waPhone = (l.phone || "").replace(/[^0-9]/g, "");
+          const waMsg = encodeURIComponent(`Hello ${l.clientName}, this is ${l.assignedTo} from Right Asset's Property Consultants regarding your requirement (${purposeBadge} in ${l.preferredArea}). How can I assist you with site viewing?`);
+
+          // AI Lead Scoring Algorithm (0 - 100)
+          let score = 50;
+          if (l.purpose === 'project') score += 25;
+          else if (l.purpose === 'buy') score += 20;
+          else if (l.purpose === 'rent') score += 10;
+
+          if (l.budget && (l.budget.includes('Cr') || l.budget.includes('Lakhs'))) {
+            if (l.budget.includes('Cr')) score += 15;
+            else score += 8;
+          }
+          if (l.status === 'Site Visit Scheduled' || l.status === 'Negotiation') score += 15;
+          else if (l.status === 'Contacted') score += 8;
+          else if (l.status === 'Closed') score -= 20;
+
+          // Clamp
+          score = Math.min(Math.max(score, 35), 98);
+
+          let scoreBadge = `<span class="lead-score-chip cold"><i class="fa-regular fa-snowflake"></i> ${score}/100</span>`;
+          if (score >= 80) {
+            scoreBadge = `<span class="lead-score-chip hot"><i class="fa-solid fa-fire"></i> Hot ${score}</span>`;
+          } else if (score >= 60) {
+            scoreBadge = `<span class="lead-score-chip warm"><i class="fa-solid fa-bolt"></i> Warm ${score}</span>`;
+          }
+
+          return `
+            <tr>
+              <td>
+                <div style="font-weight: 800; color: var(--gold-300); margin-bottom: 4px; font-size: 0.85rem;">${l.id}</div>
+                <select class="status-select-badge ${statusClass}" onchange="changeLeadStatus('${l.id}', this.value)">
+                  <option value="New" ${l.status === "New" ? "selected" : ""}>New</option>
+                  <option value="Contacted" ${l.status === "Contacted" ? "selected" : ""}>Contacted</option>
+                  <option value="Site Visit Scheduled" ${l.status === "Site Visit Scheduled" ? "selected" : ""}>Visit Scheduled</option>
+                  <option value="Negotiation" ${l.status === "Negotiation" ? "selected" : ""}>Negotiation</option>
+                  <option value="Closed" ${l.status === "Closed" ? "selected" : ""}>Closed</option>
+                </select>
+              </td>
+              <td>
+                <strong style="color: #fff; font-size: 0.95rem;">${l.clientName}</strong>
+                ${l.notes ? `<div style="font-size: 0.78rem; color: var(--gold-300); margin-top: 4px;"><i class="fa-solid fa-note-sticky"></i> ${l.notes}</div>` : ''}
+              </td>
+              <td>
+                <div><a href="tel:${l.phone}" style="color: #60A5FA; font-weight: 700;"><i class="fa-solid fa-phone" style="font-size: 0.8rem;"></i> ${l.phone}</a></div>
+                ${l.email && l.email !== "Not Provided" ? `<div style="font-size: 0.78rem; color: var(--text-secondary);">${l.email}</div>` : ''}
+              </td>
+              <td>
+                <span class="badge-tag ${purposeClass}" style="padding: 2px 6px; font-size: 0.68rem;">${purposeBadge}</span>
+                <span style="font-size: 0.82rem; font-weight: 600; color: #fff;">${(l.category || '').toUpperCase()}</span>
+                <div style="font-size: 0.82rem; color: var(--gold-400); font-weight: 700; margin-top: 2px;">${l.budget || 'Flexible'}</div>
+              </td>
+              <td>
+                <div style="font-size: 0.88rem; color: #fff; font-weight: 600;">${l.propertyTitle || 'Project Inquiry'}</div>
+                <div style="font-size: 0.78rem; color: var(--text-muted);"><i class="fa-solid fa-location-dot"></i> ${l.preferredArea || 'Kandivali / Borivali / Malad'}</div>
+              </td>
+              <td>
+                ${scoreBadge}
+              </td>
+              <td>
+                <span class="assigned-advisor-pill ${advisorClass}">
+                  <i class="fa-solid ${l.assignedTo === 'Sanjeev Mehta' ? 'fa-crown' : (l.assignedTo === 'Nutan Madam' ? 'fa-user-tie' : 'fa-user')}"></i>
+                  ${l.assignedTo || 'Sanjeev Mehta'}
+                </span>
+              </td>
+              <td style="font-size: 0.8rem; color: var(--text-secondary); white-space: nowrap;">
+                ${l.createdAt || 'Recent'}
+              </td>
+              <td style="text-align: right; white-space: nowrap;">
+                <div style="display: inline-flex; gap: 6px;">
+                  <a href="https://wa.me/${waPhone}?text=${waMsg}" target="_blank" class="btn btn-whatsapp btn-sm" style="padding: 5px 10px;" title="WhatsApp Follow-up">
+                    <i class="fa-brands fa-whatsapp"></i>
+                  </a>
+                  <button type="button" class="btn btn-secondary btn-sm" style="padding: 5px 10px;" onclick="openNotesModal('${l.id}')" title="Edit Notes">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </button>
+                  ${isAdmin ? `
+                    <button type="button" class="btn btn-secondary btn-sm" style="padding: 5px 10px; color: #EF4444;" onclick="deleteLeadItem('${l.id}')" title="Delete Lead">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  ` : ''}
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join("");
+
+        renderPagination(totalPages);
+      }
+
+      // Charts (Admin Cockpit)
+      function initAdminCharts() {
+        const leads = RealtimeDB.getAllLeads();
+        if (leads.length === 0) return;
+
+        const statusCounts = {
+          "New": leads.filter(l => l.status === "New").length,
+          "Contacted": leads.filter(l => l.status === "Contacted").length,
+          "Site Visit": leads.filter(l => l.status === "Site Visit Scheduled").length,
+          "Negotiation": leads.filter(l => l.status === "Negotiation").length,
+          "Closed": leads.filter(l => l.status === "Closed").length
+        };
+
+        const ctxStatus = document.getElementById("pipelineStatusChart");
+        if (ctxStatus) {
+          if (chartStatusInstance) chartStatusInstance.destroy();
+          chartStatusInstance = new Chart(ctxStatus, {
+            type: "doughnut",
+            data: {
+              labels: Object.keys(statusCounts),
+              datasets: [{
+                data: Object.values(statusCounts),
+                backgroundColor: ["#3B82F6", "#F59E0B", "#10B981", "#8B5CF6", "#D4AF37"],
+                borderColor: "#0E1118",
+                borderWidth: 2
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { position: "right", labels: { color: "#E2E8F0", font: { size: 12 } } }
+              }
+            }
+          });
+        }
+
+        const advisorCounts = {
+          "Sanjeev Mehta (Projects)": leads.filter(l => l.assignedTo === "Sanjeev Mehta").length,
+          "Nutan Madam • Resale": leads.filter(l => l.assignedTo === "Nutan Madam").length,
+          "Roshan • Rentals": leads.filter(l => l.assignedTo === "Roshan").length
+        };
+
+        const ctxPortfolio = document.getElementById("portfolioDistributionChart");
+        if (ctxPortfolio) {
+          if (chartPortfolioInstance) chartPortfolioInstance.destroy();
+          chartPortfolioInstance = new Chart(ctxPortfolio, {
+            type: "bar",
+            data: {
+              labels: ["Projects", "Resale", "Rentals"],
+              datasets: [{
+                label: "Assigned Leads",
+                data: Object.values(advisorCounts),
+                backgroundColor: ["#D4AF37", "#F472B6", "#60A5FA"],
+                borderRadius: 6
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: false }
+              },
+              scales: {
+                y: { grid: { color: "rgba(255,255,255,0.06)" }, ticks: { color: "#94A3B8" } },
+                x: { grid: { display: false }, ticks: { color: "#E2E8F0" } }
+              }
+            }
+          });
+        }
+      }
+
+      function renderPagination(totalPages) {
+        if (totalPages <= 1) {
+          paginationContainer.innerHTML = "";
+          return;
+        }
+
+        let html = '<div class="pagination-wrapper">';
+        html += `
+          <button class="pagination-btn ${currentPage === 1 ? 'disabled' : ''}" data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''}>
+            <i class="fa-solid fa-angle-left"></i> Prev
+          </button>
+        `;
+
+        for (let p = 1; p <= totalPages; p++) {
+          if (p === 1 || p === totalPages || (p >= currentPage - 2 && p <= currentPage + 2)) {
+            html += `<button class="pagination-btn ${p === currentPage ? 'active' : ''}" data-page="${p}">${p}</button>`;
+          } else if (p === currentPage - 3 || p === currentPage + 3) {
+            html += `<span class="pagination-ellipsis">...</span>`;
+          }
+        }
+
+        html += `
+          <button class="pagination-btn ${currentPage === totalPages ? 'disabled' : ''}" data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''}>
+            Next <i class="fa-solid fa-angle-right"></i>
+          </button>
+        `;
+        html += '</div>';
+
+        paginationContainer.innerHTML = html;
+        paginationContainer.querySelectorAll(".pagination-btn").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const page = parseInt(btn.dataset.page);
+            if (page && page !== currentPage) {
+              currentPage = page;
+              renderTable();
+              window.scrollTo({ top: 380, behavior: "smooth" });
+            }
+          });
+        });
+      }
+
+      // Actions
+      window.changeLeadStatus = function(id, newStatus) {
+        RealtimeDB.updateLeadStatus(id, newStatus);
+        renderTable();
+        const user = AuthService.getCurrentUser();
+        if (user && user.role === "Admin") initAdminCharts();
+      };
+
+      window.deleteLeadItem = function(id) {
+        const user = AuthService.getCurrentUser();
+        if (user && user.role !== "Admin") {
+          alert("Only Admin (Sanjeev Mehta) has permission to delete lead records.");
+          return;
+        }
+        if (confirm(`Are you sure you want to permanently delete lead ${id}?`)) {
+          RealtimeDB.deleteLead(id);
+          renderTable();
+          initAdminCharts();
+        }
+      };
+
+      // Search & Filter event listeners
+      if (searchInput) searchInput.addEventListener("input", () => { currentPage = 1; renderTable(); });
+      if (filterStatus) filterStatus.addEventListener("change", () => { currentPage = 1; renderTable(); });
+      if (filterAdvisor) filterAdvisor.addEventListener("change", () => { currentPage = 1; renderTable(); });
+      if (filterCategory) filterCategory.addEventListener("change", () => { currentPage = 1; renderTable(); });
+
+      // CSV Export
+      const exportBtn = document.getElementById("btn-export-csv");
+      if (exportBtn) {
+        exportBtn.addEventListener("click", () => {
+          const user = AuthService.getCurrentUser();
+          const filter = user && user.role === "Admin" ? "all" : user.assignedToFilter;
+          RealtimeDB.exportToCSV(filter);
+        });
+      }
+
+      // Reset Cloud Cache
+      const resetBtn = document.getElementById("btn-clear-db");
+      if (resetBtn) {
+        resetBtn.addEventListener("click", () => {
+          if (confirm("Sync live data with Firebase Cloud Database?")) {
+            RealtimeDB.syncFromFirebase().then(() => {
+              renderTable();
+              alert("Synchronized with Firebase Realtime Database!");
+            });
+          }
+        });
+      }
+
+      // Notes Modal
+      const notesModal = document.getElementById("notes-modal");
+      const notesClose = document.getElementById("notes-modal-close");
+      const notesSaveBtn = document.getElementById("btn-save-notes");
+
+      window.openNotesModal = function(id) {
+        const lead = RealtimeDB.getAllLeads().find(l => l.id === id);
+        if (!lead) return;
+        document.getElementById("notes-lead-id").value = lead.id;
+        document.getElementById("notes-lead-client").textContent = lead.clientName;
+        document.getElementById("notes-lead-text").value = lead.notes || "";
+        notesModal.classList.add("active");
+      };
+
+      if (notesClose) notesClose.addEventListener("click", () => notesModal.classList.remove("active"));
+      if (notesSaveBtn) {
+        notesSaveBtn.addEventListener("click", () => {
+          const id = document.getElementById("notes-lead-id").value;
+          const text = document.getElementById("notes-lead-text").value;
+          RealtimeDB.updateLeadNotes(id, text);
+          notesModal.classList.remove("active");
+          renderTable();
+        });
+      }
+
+      // Manual Lead Modal
+      const manualModal = document.getElementById("manual-lead-modal");
+      const manualBtn = document.getElementById("btn-add-manual-lead");
+      const manualClose = document.getElementById("manual-modal-close");
+      const manualForm = document.getElementById("manual-lead-form");
+
+      if (manualBtn) manualBtn.addEventListener("click", () => manualModal.classList.add("active"));
+      if (manualClose) manualClose.addEventListener("click", () => manualModal.classList.remove("active"));
+      
+      window.autoSelectAdvisor = function(purpose) {
+        const agentSel = document.getElementById("man-agent");
+        if (purpose === "project") agentSel.value = "Sanjeev Mehta";
+        else if (purpose === "buy") agentSel.value = "Nutan Madam";
+        else if (purpose === "rent") agentSel.value = "Roshan";
+      };
+
+      if (manualForm) {
+        manualForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const newLead = {
+            clientName: document.getElementById("man-name").value,
+            phone: document.getElementById("man-phone").value,
+            email: "Direct Inquiry",
+            purpose: document.getElementById("man-purpose").value,
+            category: document.getElementById("man-category").value,
+            budget: document.getElementById("man-budget").value || "Flexible",
+            propertyTitle: document.getElementById("man-area").value || "Direct Entry",
+            preferredArea: document.getElementById("man-area").value || "Kandivali West",
+            assignedTo: document.getElementById("man-agent").value,
+            notes: document.getElementById("man-notes").value || "Direct lead added via CRM."
+          };
+          RealtimeDB.addLead(newLead);
+          manualModal.classList.remove("active");
+          manualForm.reset();
+          renderTable();
+          const user = AuthService.getCurrentUser();
+          if (user && user.role === "Admin") initAdminCharts();
+          alert("New Lead registered and synced to Firebase Cloud Database!");
+        });
+      }
+
+      // Listen to real-time events
+      window.addEventListener("realtimeLeadsChanged", () => {
+        renderTable();
+        const user = AuthService.getCurrentUser();
+        if (user && user.role === "Admin") initAdminCharts();
+      });
+
+      window.addEventListener("crmAuthChanged", (e) => {
+        renderUserProfile(e.detail);
+      });
+
+      // Init Check
+      checkAuth();
+    });
+  </script>
+</body>
+</html>

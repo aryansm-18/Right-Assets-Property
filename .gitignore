@@ -1,0 +1,23 @@
+# OS and Editor files
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# Build and temporary files
+build/
+*.pyc
+__pycache__/
+
+# Android Studio local & build files
+RightAssetsCRM_App/.gradle/
+RightAssetsCRM_App/.idea/
+RightAssetsCRM_App/build/
+RightAssetsCRM_App/app/build/
+RightAssetsCRM_App/local.properties
+
+# Generated PDFs, PPTs, or local scratch scripts
+*.pdf
+*.pptx
+*.log

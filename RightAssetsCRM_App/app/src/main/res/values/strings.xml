@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Right Assets CRM</string>
+    <string name="login_title">Executive Portal Login</string>
+    <string name="login_subtitle">Right Asset\'s Property Consultants</string>
+    <string name="sign_in">Sign In</string>
+    <string name="dashboard_title">CRM Pipeline Dashboard</string>
+    <string name="tab_new">New Leads</string>
+    <string name="tab_visit">Site Visits</string>
+    <string name="tab_negotiation">Negotiation</string>
+    <string name="tab_closed">Closed</string>
+    <string name="action_call">Call Client</string>
+    <string name="action_whatsapp">WhatsApp</string>
+    <string name="ai_matcher">AI Smart Matcher</string>
+</resources>

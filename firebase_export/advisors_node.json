@@ -1,0 +1,50 @@
+{
+  "ADV-101": {
+    "id": "ADV-101",
+    "name": "Sanjeev Mehta",
+    "role": "Admin",
+    "title": "Owner & Principal Advisor",
+    "phone": "+918879541828",
+    "whatsapp": "918879541828",
+    "specialization": "Under Construction Luxury Projects & High-Value Negotiations",
+    "avatar": "assets/images/sanjeev-mehta.jpg",
+    "email": "sanjeev@rightassetsproperty.com",
+    "status": "Active"
+  },
+  "ADV-102": {
+    "id": "ADV-102",
+    "name": "Nutan Madam",
+    "role": "Staff",
+    "title": "Associate & Resale Portfolio Lead",
+    "phone": "+918591363509",
+    "whatsapp": "918591363509",
+    "specialization": "Residential Resale Matchmaking & Society Documentation",
+    "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80",
+    "email": "nutan@rightassetsproperty.com",
+    "status": "Active"
+  },
+  "ADV-103": {
+    "id": "ADV-103",
+    "name": "Roshan",
+    "role": "Staff",
+    "title": "Associate & Rental Specialist",
+    "phone": "+919324784391",
+    "whatsapp": "919324784391",
+    "specialization": "Residential & Commercial Leasing & Fast Tenant Placements",
+    "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80",
+    "email": "roshan@rightassetsproperty.com",
+    "status": "Active"
+  },
+  "ADV-104": {
+    "id": "ADV-104",
+    "name": "Krutika",
+    "role": "Staff",
+    "title": "Associate & Digital Marketer",
+    "phone": "+919819667899",
+    "whatsapp": "919819667899",
+    "specialization": "Digital Outreach, Virtual Walkthroughs & Online Client Inquiries",
+    "avatar": "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=200&q=80",
+    "email": "krutika@rightassetsproperty.com",
+    "status": "Active"
+  }
+}

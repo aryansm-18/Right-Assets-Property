@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "204431498209",
+    "firebase_url": "https://right-assets-properties-default-rtdb.firebaseio.com",
+    "project_id": "right-assets-properties",
+    "storage_bucket": "right-assets-properties.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:204431498209:android:d40d34e6aeccd0437d10a0",
+        "android_client_info": {
+          "package_name": "com.rightassets.crm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoqeHbIqYfephhHzPxsFpUWqunTaTBxOI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

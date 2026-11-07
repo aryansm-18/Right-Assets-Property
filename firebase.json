@@ -1,0 +1,24 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "firebase.exe",
+      "**/.*",
+      "**/node_modules/**",
+      "RightAssetsCRM_App/**",
+      "firebase_export/**",
+      "*.py",
+      "*.bat",
+      "*.ps1",
+      "*.pptx",
+      "*.pdf"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

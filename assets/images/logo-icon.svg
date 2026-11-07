@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <defs>
+    <linearGradient id="goldGradIcon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCE192" />
+      <stop offset="35%" stop-color="#E2B743" />
+      <stop offset="70%" stop-color="#BA871F" />
+      <stop offset="100%" stop-color="#875F0F" />
+    </linearGradient>
+  </defs>
+
+  <!-- Outer Ring -->
+  <circle cx="60" cy="62" r="50" stroke="url(#goldGradIcon)" stroke-width="4" fill="#0C0E14" />
+  <circle cx="60" cy="62" r="44" stroke="url(#goldGradIcon)" stroke-width="1.5" fill="none" opacity="0.6" />
+
+  <!-- Crown -->
+  <g fill="url(#goldGradIcon)">
+    <path d="M 44 24 L 76 24 L 78 28 L 42 28 Z" />
+    <path d="M 42 24 L 40 12 L 50 18 L 60 8 L 70 18 L 80 12 L 78 24 Z" />
+    <circle cx="40" cy="11" r="2" />
+    <circle cx="60" cy="7" r="2.5" />
+    <circle cx="80" cy="11" r="2" />
+  </g>
+
+  <!-- Royal House 'R' Monogram -->
+  <g fill="url(#goldGradIcon)">
+    <rect x="46" y="44" width="7" height="38" rx="1.5" />
+    <path d="M 50 44 L 69 44 C 77 44, 82 48, 82 55 C 82 62, 76 67, 68 67 L 50 67 Z M 57 50 L 57 61 L 67 61 C 72 61, 75 59, 75 55 C 75 51, 72 50, 67 50 Z" />
+    <path d="M 66 66 L 82 82 L 74 82 L 62 69 Z" />
+    <!-- Roof cutout -->
+    <path d="M 64 74 L 73 66 L 82 74 L 79 74 L 73 69 L 67 74 Z" />
+    <!-- Window inside R leg -->
+    <rect x="70" y="76" width="2.5" height="2.5" />
+    <rect x="74" y="76" width="2.5" height="2.5" />
+    <rect x="70" y="79.5" width="2.5" height="2.5" />
+    <rect x="74" y="79.5" width="2.5" height="2.5" />
+  </g>
+</svg>
